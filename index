@@ -1,0 +1,115 @@
+const express = require("express");
+const mysql = require("mysql");
+
+const app = express();
+const PORT = 3000;
+
+app.use(express.json());
+
+// MySQL database connection configuration
+const connection = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "agro_in",
+});
+
+// Connect to MySQL database
+connection.connect((err) => {
+  if (err) {
+    console.error("Error connecting to MySQL database:", err);
+    return;
+  }
+  console.log("Connected to MySQL database");
+});
+
+// Define a route to handle GET requests for fetching data
+app.get("/artikel", (req, res) => {
+  // SQL query to fetch data
+  const query =
+    "SELECT artikel.id, artikel.created, artikel.title, artikel.slug, artikel.content, artikel.summary,artikel.featured_image, author.name, author.email, author.profile_image FROM artikel INNER JOIN author ON author.id=artikel.author";
+
+  // Execute the query
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error("Error executing query:", err);
+      res.status(500).json({ error: "Internal server error" });
+      return;
+    }
+
+    // Send the fetched data as JSON response
+
+    res.json({
+      message: "Create Product Succes",
+      data: results,
+    });
+  });
+});
+
+// delete
+app.delete("/artikel/:id", (req, res) => {
+  const id = req.params.id;
+
+  // SQL query to delete data by ID
+  const query = "DELETE FROM artikel WHERE id = ?";
+
+  // Execute the query with the provided ID parameter
+  connection.query(query, [id], (err, result) => {
+    if (err) {
+      console.error("Error executing query:", err);
+      res.status(500).json({ error: "Internal server error" });
+      return;
+    }
+
+    // Check if any rows were affected (data deleted)
+    if (result.affectedRows === 0) {
+      res.status(404).json({ error: `Data with ID ${id} not found` });
+      return;
+    }
+
+    res.json({ message: `Data with ID ${id} deleted successfully` });
+  });
+});
+
+// add artikel
+
+// Define a route to handle POST requests to add data
+app.post("/artikel/add", (req, res) => {
+  const { id, title, slug, content, summary, author } = req.body;
+  //   console.log(id, title, slug, content, summary, author);
+  //   Validate request body
+  if (!id || !title || !slug || !content || !summary || !author) {
+    res.status(400).json({ error: "Data yang anda masukkan kurang lengkap" });
+    return;
+  }
+
+  // SQL query to insert data into the table
+  const query =
+    "INSERT INTO artikel (id, created, title, slug, content, summary, featured_image, author) VALUES (?, now(),  ?, ?, ?,?, null ,?)";
+
+  //   Execute the query with the provided data
+  connection.query(
+    query,
+    [id, title, slug, content, summary, author],
+    (err, result) => {
+      if (err) {
+        console.error("Error executing query:", err);
+        res.status(500).json({ error: "Internal server error" });
+        return;
+      }
+
+      res
+        .status(201)
+        .json({ message: "Data added successfully", id: result.insertId });
+    }
+  );
+});
+
+app.get("/", (req, res) => {
+  res.send("Welcome To API Agroin");
+});
+
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
