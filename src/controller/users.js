@@ -80,9 +80,26 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const uploud = async (req, res) => {
+  const fileName = req.file.filename;
+  const idUser = req.idUser;
+  try {
+    await UserModel.updateFoto("users", "profile_image", fileName, idUser);
+    res.json({
+      message: "uploud berhasil",
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({
+      message: "uploud Gagal",
+      error,
+    });
+  }
+};
 module.exports = {
   getAllUsers,
   createNewUser,
   updateUser,
   deleteUser,
+  uploud,
 };

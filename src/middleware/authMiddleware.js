@@ -1,9 +1,7 @@
 // middleware/authMiddleware.js
 const jwt = require("jsonwebtoken");
-const express = require("express");
 
-const app = express();
-const SECRET_KEY = "key"; // Sama dengan yang digunakan di auth.js
+const SECRET_KEY = process.env.SECRET_KEY; // Sama dengan yang digunakan di auth.js
 function verifyToken(req, res, next) {
   // ============
   const token = req.headers["authorization"];
@@ -17,7 +15,7 @@ function verifyToken(req, res, next) {
       return res.status(500).json({ message: "Failed to authenticate token" });
     }
 
-    req.userId = decoded.id;
+    req.idUser = decoded.id;
     next();
   });
 }

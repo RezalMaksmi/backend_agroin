@@ -29,9 +29,15 @@ const deleteUser = (idUser) => {
   return dbPool.execute(SQLQuery);
 };
 
+const updateFoto = (table, field, value, idUser) => {
+  const SQLQuery = `UPDATE ${table} SET ${field}='${value}' WHERE id='${idUser}'`;
+
+  return dbPool.execute(SQLQuery);
+};
 module.exports = {
   getAllUsers,
   createNewUser,
   updateUsers,
   deleteUser,
+  updateFoto,
 };
