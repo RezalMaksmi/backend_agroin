@@ -1,16 +1,13 @@
 const express = require("express");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const router = express.Router();
-const UserModel = require("../models/users");
 const UseController = require("../controller/auth");
-
-// Ganti dengan secret key yang lebih kuat di production
-const SECRET_KEY = process.env.SECRET_KEY;
+const verifyToken = require("../middleware/authMiddleware");
 
 // Endpoint untuk login
 
 router.post("/login", UseController.authLogin);
+
+router.patch("/update", verifyToken, UseController.updateUser);
 
 // router.post("/login", async (req, res) => {
 //   const { email, password } = req.body;
