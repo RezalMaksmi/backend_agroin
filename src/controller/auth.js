@@ -34,11 +34,34 @@ const authLogin = async (req, res) => {
       name: user.name,
       email: user.email,
       profile_image: user.profile_image,
-      about: user.about,
+      job: user.job,
     },
   });
 };
 
+// update
+const updateUser = async (req, res) => {
+  const idUser = req.idUser;
+  const { body } = req;
+  try {
+    await auth.updateUsers(body, idUser);
+
+    res.json({
+      message: "Update User success",
+      data: {
+        id: idUser,
+        ...body,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "server error",
+      serverMessage: error,
+    });
+  }
+};
+
 module.exports = {
   authLogin,
+  updateUser,
 };
