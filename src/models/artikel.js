@@ -1,5 +1,4 @@
 const dbPool = require("../config/database");
-const bcrypt = require("bcryptjs");
 const { v4: uuidv4 } = require("uuid");
 
 const getAllArtikel = () => {
@@ -15,7 +14,21 @@ const createArtikel = (body) => {
   return dbPool.execute(SQLQuery);
 };
 
+const getArtikelBySlug = (slug) => {
+  const SQLQuery = `SELECT * FROM artikel WHERE slug="${slug}"`;
+
+  return dbPool.execute(SQLQuery);
+};
+
+const searchArtikel = (searchValue) => {
+  const SQLQuery = `SELECT * FROM artikel WHERE slug LIKE '${searchValue}' `;
+
+  return dbPool.execute(SQLQuery);
+};
+
 module.exports = {
   getAllArtikel,
   createArtikel,
+  getArtikelBySlug,
+  searchArtikel,
 };

@@ -17,8 +17,8 @@ app.use(bodyParser.json());
 // Menggunakan routing auth
 app.use("/auth", authRoutes);
 
-// midleware mengizinkan request body berupa jsojn
 app.use(middlewareLogRequest);
+// midleware mengizinkan request body berupa json
 app.use(express.json());
 app.use("/assets", express.static("public"));
 

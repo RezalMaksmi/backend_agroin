@@ -4,17 +4,14 @@ const jwt = require("jsonwebtoken");
 const router = express.Router();
 const auth = require("../models/auth");
 
-// Ganti dengan secret key yang lebih kuat di production
 const SECRET_KEY = process.env.SECRET_KEY;
 
 // Endpoint untuk login
 const authLogin = async (req, res) => {
   const { email, password } = req.body;
 
-  //   return dbPool.execute(SQLQuery);
   const [data] = await auth.getUsers();
   const user = data.find((u) => u.email === email);
-  // console.log(data);
   if (!user) {
     return res.status(401).json({ message: "Email anda belum terdaftar" });
   }
@@ -39,19 +36,22 @@ const authLogin = async (req, res) => {
   });
 };
 
-// update
-const updateUser = async (req, res) => {
-  const idUser = req.idUser;
+const register = async (req, res) => {
   const { body } = req;
-  try {
-    await auth.updateUsers(body, idUser);
 
-    res.json({
-      message: "Update User success",
-      data: {
-        id: idUser,
-        ...body,
-      },
+  if (!body.name || !body.email || !body.password) {
+    return res.status(400).json({
+      message: "Anda mengirimkan data yang salah",
+      data: null,
+    });
+  }
+
+  try {
+    await auth.registerUser(body);
+
+    res.status(201).json({
+      message: "Create new User success",
+      data: body,
     });
   } catch (error) {
     res.status(500).json({
@@ -63,5 +63,5 @@ const updateUser = async (req, res) => {
 
 module.exports = {
   authLogin,
-  updateUser,
+  register,
 };

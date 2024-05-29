@@ -1,5 +1,6 @@
 const dbPool = require("../config/database");
 const bcrypt = require("bcryptjs");
+const { v4: uuidv4 } = require("uuid");
 
 const getUsers = () => {
   const SQLQuery = "SELECT * FROM users ";
@@ -7,16 +8,17 @@ const getUsers = () => {
   return dbPool.execute(SQLQuery);
 };
 
-const updateUsers = (body, idUser) => {
-  const SQLQuery = `UPDATE users SET name='${body.name}', email='${
-    body.email
-  }', profile_image='${body.profile_image}', job='${
-    body.job
-  }',  password='${bcrypt.hashSync(body.password)}'  WHERE id="${idUser}"`;
+const registerUser = (body) => {
+  const id = uuidv4();
+  const SQLQuery = `INSERT INTO users (id, name, email, password) 
+  VALUES ('${id}','${body.name}', '${body.email}','${bcrypt.hashSync(
+    body.password
+  )}')`;
+
   return dbPool.execute(SQLQuery);
 };
 
 module.exports = {
   getUsers,
-  updateUsers,
+  registerUser,
 };

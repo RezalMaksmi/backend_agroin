@@ -1,0 +1,19 @@
+###
+post http://localhost:4000/auth/login
+content-type: application/json
+
+{
+    "email": "rezal@gmail.com",
+    "password": "rezal123"
+}
+
+###
+get http://localhost:4000/users
+content-type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjhmN2FjNDBiLWRjOTAtNGE3Zi1hODNlLWE2YTJjNWNkODRmYyIsImlhdCI6MTcxNjk3MTExNiwiZXhwIjoxNzE2OTc0NzE2fQ.uMGd_vh__jTXzN0owJeW0h1qB3_DEl7c4tIft10-I0Q
+
+
+# search
+###
+get http://localhost:4000/artikel/search?q=harga
+content-type: application/json
