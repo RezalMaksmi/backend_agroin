@@ -1,11 +1,48 @@
 const ArtikelModel = require("../models/artikel");
 
 const getAllArtikel = async (req, res) => {
+  console.log("pppp");
   try {
     const [data] = await ArtikelModel.getAllArtikel();
 
     res.json({
       message: "Get All Artikel success",
+      data: data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "server error",
+      serverMessage: error,
+    });
+  }
+};
+
+const getArtikelBySlug = async (req, res) => {
+  const { slug } = req.params;
+  try {
+    const [data] = await ArtikelModel.getArtikelBySlug(slug);
+
+    res.json({
+      message: "Get All Artikel success",
+      data: data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "server error",
+      serverMessage: error,
+    });
+  }
+};
+
+const searchArtikel = async (req, res) => {
+  const searchQuery = req.query.q;
+  const searchValue = `%${searchQuery}%`;
+
+  try {
+    const [data] = await ArtikelModel.searchArtikel(searchValue);
+
+    res.json({
+      message: "Search Artikel success",
       data: data,
     });
   } catch (error) {
@@ -50,4 +87,6 @@ const createNewArtikel = async (req, res) => {
 module.exports = {
   getAllArtikel,
   createNewArtikel,
+  getArtikelBySlug,
+  searchArtikel,
 };

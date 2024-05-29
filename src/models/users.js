@@ -34,6 +34,7 @@ const updateFoto = (table, field, value, idUser) => {
 
   return dbPool.execute(SQLQuery);
 };
+
 module.exports = {
   getAllUsers,
   createNewUser,
