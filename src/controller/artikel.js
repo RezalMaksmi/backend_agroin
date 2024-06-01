@@ -1,7 +1,6 @@
 const ArtikelModel = require("../models/artikel");
 
 const getAllArtikel = async (req, res) => {
-  console.log("pppp");
   try {
     const [data] = await ArtikelModel.getAllArtikel();
 
