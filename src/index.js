@@ -1,7 +1,10 @@
 require("dotenv").config();
 const express = require("express");
+
 const usersRoutes = require("./routes/users.js");
 const artikelRoutes = require("./routes/artikel.js");
+const spaceRoutes = require("./routes/space.js");
+
 const middlewareLogRequest = require("./middleware/logs.js");
 const bodyParser = require("body-parser");
 const authRoutes = require("./routes/auth");
@@ -25,6 +28,7 @@ app.use("/assets", express.static("public"));
 // routing
 app.use("/users", usersRoutes);
 app.use("/artikel", artikelRoutes);
+app.use("/spaces", spaceRoutes);
 
 app.get("/", (req, res) => {
   res.send("Welcome To API Agroin");
