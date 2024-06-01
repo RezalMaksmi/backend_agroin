@@ -17,7 +17,6 @@ const authLogin = async (req, res) => {
   }
 
   const validPassword = await bcrypt.compare(password, user.password);
-  //   const validPassword = await (password, user.password);
   if (!validPassword) {
     return res.status(401).json({ message: "Invalid password" });
   }
@@ -42,7 +41,6 @@ const register = async (req, res) => {
   if (!body.name || !body.email || !body.password) {
     return res.status(400).json({
       message: "Anda mengirimkan data yang salah",
-      data: null,
     });
   }
 
@@ -51,12 +49,10 @@ const register = async (req, res) => {
 
     res.status(201).json({
       message: "Create new User success",
-      data: body,
     });
   } catch (error) {
     res.status(500).json({
       message: "server error",
-      serverMessage: error,
     });
   }
 };
