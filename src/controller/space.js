@@ -17,6 +17,31 @@ const getSpaces = async (req, res) => {
   }
 };
 
+const getSpaceById = async (req, res) => {
+  const { id } = req.params;
+  const [spaces] = await SpaceModel.getSpaceById(id);
+  const space = spaces[0];
+
+  // TODO: get posts from current space
+
+  if (!space) {
+    return res.status(404).json({
+      message: "ruang tidak ditemukan",
+    });
+  }
+
+  const isOwned = req.userId === space.user_id;
+
+  return res.json({
+    data: {
+      space: {
+        ...space,
+        is_owned: isOwned,
+      },
+    },
+  });
+};
+
 const createSpace = async (req, res) => {
   const { title, description } = req.body;
 
@@ -45,5 +70,6 @@ const createSpace = async (req, res) => {
 
 module.exports = {
   getSpaces,
+  getSpaceById,
   createSpace,
 };

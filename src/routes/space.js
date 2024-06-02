@@ -7,5 +7,6 @@ router.use(verifyTokenMiddleware);
 
 router.get("/", SpaceController.getSpaces);
 router.post("/", SpaceController.createSpace);
+router.get("/:id", SpaceController.getSpaceById);
 
 module.exports = router;

@@ -13,7 +13,7 @@ const createSpace = ({ userId, title, description }) => {
   return dbPool.execute(query, values);
 };
 
-const getSpaceByID = (id) => {
+const getSpaceById = (id) => {
   const query = "SELECT * FROM spaces WHERE id = ?";
   const values = [id];
 
@@ -22,6 +22,6 @@ const getSpaceByID = (id) => {
 
 module.exports = {
   getSpaces,
-  getSpaceByID,
+  getSpaceById,
   createSpace,
 };
