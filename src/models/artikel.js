@@ -26,9 +26,16 @@ const searchArtikel = (searchValue) => {
   return dbPool.execute(SQLQuery);
 };
 
+const updateFoto = (table, field, value, slug) => {
+  const SQLQuery = `UPDATE ${table} SET ${field}='${value}' WHERE slug='${slug}'`;
+
+  return dbPool.execute(SQLQuery);
+};
+
 module.exports = {
   getAllArtikel,
   createArtikel,
   getArtikelBySlug,
   searchArtikel,
+  updateFoto,
 };

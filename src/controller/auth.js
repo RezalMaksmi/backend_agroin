@@ -27,7 +27,7 @@ const authLogin = async (req, res) => {
     token,
     data: {
       id: user.id,
-      name: user.name,
+      name: user.username,
       email: user.email,
       profile_image: user.profile_image,
       job: user.job,
