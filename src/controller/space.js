@@ -68,8 +68,45 @@ const createSpace = async (req, res) => {
   }
 };
 
+const deleteSpaceById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const [spaces] = await SpaceModel.getSpaceById(id);
+    const space = spaces[0];
+    if (!space) {
+      return res.status(404).json({
+        message: "ruang tidak ditemukan",
+      });
+    }
+
+    if (space.user_id !== req.userId) {
+      return res.status(404).json({
+        message: "ruang tidak ditemukan",
+      });
+    }
+
+    const [result] = await SpaceModel.deleteSpaceById(id);
+    if (!result.affectedRows) {
+      return res.status(404).json({
+        message: "gagal menghaps ruang",
+      });
+    }
+
+    res.json({
+      message: "sukses menghapus ruang",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "server error",
+    });
+  }
+};
+
 module.exports = {
   getSpaces,
   getSpaceById,
   createSpace,
+  deleteSpaceById,
 };

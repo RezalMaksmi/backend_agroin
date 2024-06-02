@@ -20,8 +20,16 @@ const getSpaceById = (id) => {
   return dbPool.execute(query, values);
 };
 
+const deleteSpaceById = (id) => {
+  const query = "DELETE FROM spaces WHERE id = ?";
+  const values = [id];
+
+  return dbPool.execute(query, values);
+};
+
 module.exports = {
   getSpaces,
   getSpaceById,
   createSpace,
+  deleteSpaceById,
 };
