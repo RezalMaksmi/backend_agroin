@@ -29,7 +29,8 @@ const authLogin = async (req, res) => {
       id: user.id,
       name: user.username,
       email: user.email,
-      profile_image: user.profile_image,
+      img: user.img,
+      phone_number: user.phone_number,
       job: user.job,
     },
   });
