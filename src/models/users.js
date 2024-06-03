@@ -9,7 +9,7 @@ const getAllUsers = () => {
 
 const createNewUser = (body) => {
   const id = uuidv4();
-  const SQLQuery = `INSERT INTO users (id, name, email, password) 
+  const SQLQuery = `INSERT INTO users (id, username, email, password) 
   VALUES ('${id}','${body.name}', '${body.email}','${bcrypt.hashSync(
     body.password
   )}')`;
@@ -18,7 +18,7 @@ const createNewUser = (body) => {
 };
 
 const updateUsers = (body, idUser) => {
-  const SQLQuery = `UPDATE users SET name='${body.name}', email='${body.email}', profile_image='${body.profile_image}', job='${body.job}' WHERE id=${idUser}`;
+  const SQLQuery = `UPDATE users SET username='${body.username}', email='${body.email}', job='${body.job}', phone_number='${body.phone_number}' WHERE id=${idUser}`;
 
   return dbPool.execute(SQLQuery);
 };

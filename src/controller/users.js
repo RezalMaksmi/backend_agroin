@@ -81,10 +81,11 @@ const deleteUser = async (req, res) => {
 };
 
 const uploud = async (req, res) => {
-  const fileName = req.file.filename;
-  const idUser = req.idUser;
   try {
-    await UserModel.updateFoto("users", "profile_image", fileName, idUser);
+    const fileName = req.file.filename;
+    const idUser = req.userId;
+
+    await UserModel.updateFoto("users", "img", fileName, idUser);
     res.json({
       message: "uploud berhasil",
     });

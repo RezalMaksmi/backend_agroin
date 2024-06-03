@@ -83,9 +83,28 @@ const createNewArtikel = async (req, res) => {
   }
 };
 
+const uploud = async (req, res) => {
+  const fileName = req.file.filename;
+  const slug = req.params.slug;
+
+  try {
+    await ArtikelModel.updateFoto("artikel", "featured_image", fileName, slug);
+    res.json({
+      message: "uploud berhasil",
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({
+      message: "uploud Gagal",
+      error,
+    });
+  }
+};
+
 module.exports = {
   getAllArtikel,
   createNewArtikel,
   getArtikelBySlug,
   searchArtikel,
+  uploud,
 };
