@@ -104,9 +104,54 @@ const deleteSpaceById = async (req, res) => {
   }
 };
 
+const insertSpaceFollower = async (req, res) => {
+  const { id: spaceId } = req.params;
+  try {
+    const [result] = await SpaceModel.insertSpaceFollower(spaceId, req.userId);
+    if (!result.affectedRows) {
+      return res.status(404).json({
+        message: "gagal mengikuti ruang",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "server error",
+    });
+  }
+
+  return res.json({
+    message: "sukses mengikuti ruang",
+  });
+};
+
+const removeSpaceFollower = async (req, res) => {
+  const { id: spaceId } = req.params;
+
+  try {
+    const [result] = await SpaceModel.removeSpaceFollower(spaceId, req.userId);
+    if (!result.affectedRows) {
+      return res.status(404).json({
+        message: "gagal batal mengikuti ruang",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "server error",
+    });
+  }
+
+  return res.json({
+    message: "sukses batal mengikuti ruang",
+  });
+};
+
 module.exports = {
   getSpaces,
   getSpaceById,
   createSpace,
   deleteSpaceById,
+  insertSpaceFollower,
+  removeSpaceFollower,
 };

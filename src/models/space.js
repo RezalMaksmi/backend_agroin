@@ -27,9 +27,26 @@ const deleteSpaceById = (id) => {
   return dbPool.execute(query, values);
 };
 
+const insertSpaceFollower = (spaceId, userId) => {
+  const query = "INSERT INTO space_followers(follower_id,space_id) VALUES(?,?)";
+  const values = [userId, spaceId];
+
+  return dbPool.execute(query, values);
+};
+
+const removeSpaceFollower = (spaceId, userId) => {
+  const query =
+    "DELETE FROM space_followers WHERE follower_id = ? AND space_id = ?";
+  const values = [userId, spaceId];
+
+  return dbPool.execute(query, values);
+};
+
 module.exports = {
   getSpaces,
   getSpaceById,
   createSpace,
   deleteSpaceById,
+  insertSpaceFollower,
+  removeSpaceFollower,
 };
