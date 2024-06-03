@@ -1,19 +1,86 @@
 const SpaceModel = require("../models/space");
 
-const getSpaces = async (req, res) => {
+const getFollowedSpace = async () => {
   try {
-    const [spaces] = await SpaceModel.getSpaces();
+    const [spaces] = await SpaceModel.getFollowedSpace(req.userId);
 
-    res.json({
-      data: {
-        spaces,
-      },
-      message: "sukses mengambil data ruang",
+    return res.json({
+      spaces,
     });
-  } catch (e) {
+  } catch (error) {
     res.status(500).json({
       message: "server error",
     });
+  }
+};
+
+const getOwnedSpaces = async () => {
+  try {
+    const [spaces] = await SpaceModel.getOwnedSpaces(req.userId);
+
+    return res.json({
+      spaces,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "server error",
+    });
+  }
+};
+
+const getSpaces = async (req, res) => {
+  const { filter } = req.query;
+
+  switch (filter) {
+    case "owned":
+      try {
+        const [spaces] = await SpaceModel.getOwnedSpaces(req.userId);
+
+        res.json({
+          data: {
+            spaces,
+          },
+          message: "sukses mengambil data ruang yang dibuat",
+        });
+      } catch (e) {
+        console.log(e);
+        res.status(500).json({
+          message: "server error",
+        });
+      }
+      break;
+    case "following":
+      try {
+        const [spaces] = await SpaceModel.getFollowedSpaces(req.userId);
+
+        res.json({
+          data: {
+            spaces,
+          },
+          message: "sukses mengambil data ruang yang diikuti",
+        });
+      } catch (e) {
+        console.log(e);
+        res.status(500).json({
+          message: "server error",
+        });
+      }
+      break;
+    default:
+      try {
+        const [spaces] = await SpaceModel.getSpaces();
+
+        res.json({
+          data: {
+            spaces,
+          },
+          message: "sukses mengambil data ruang",
+        });
+      } catch (e) {
+        res.status(500).json({
+          message: "server error",
+        });
+      }
   }
 };
 

@@ -6,6 +6,29 @@ const getSpaces = () => {
   return dbPool.execute(query);
 };
 
+const getFollowedSpaces = (userId) => {
+  const query = `
+  SELECT
+    spaces.*
+  FROM
+    space_followers
+  JOIN
+    spaces ON spaces.id = space_followers.space_id 
+  WHERE
+    space_followers.follower_id = ?`;
+
+  const values = [userId];
+
+  return dbPool.execute(query, values);
+};
+
+const getOwnedSpaces = (userId) => {
+  const query = "SELECT * FROM spaces WHERE user_id = ?";
+  const values = [userId];
+
+  return dbPool.execute(query, values);
+};
+
 const createSpace = ({ userId, title, description }) => {
   const query = "INSERT INTO spaces(user_id, title, description) VALUES(?,?,?)";
   const values = [userId, title, description];
@@ -44,6 +67,8 @@ const removeSpaceFollower = (spaceId, userId) => {
 
 module.exports = {
   getSpaces,
+  getFollowedSpaces,
+  getOwnedSpaces,
   getSpaceById,
   createSpace,
   deleteSpaceById,
