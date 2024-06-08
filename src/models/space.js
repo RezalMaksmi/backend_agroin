@@ -1,7 +1,15 @@
 const dbPool = require("../config/database");
 
 const getSpaces = () => {
-  const query = "SELECT * FROM spaces";
+  const query = `
+  SELECT  
+    s.*,
+    u.img "author_image"
+  FROM
+    spaces s
+  JOIN
+    users u ON s.user_id = u.id
+  `;
 
   return dbPool.execute(query);
 };
@@ -9,13 +17,16 @@ const getSpaces = () => {
 const getFollowedSpaces = (userId) => {
   const query = `
   SELECT
-    spaces.*
+    s.*,
+    u.img "author_image"
   FROM
-    space_followers
+    space_followers sf
   JOIN
-    spaces ON spaces.id = space_followers.space_id 
+    spaces s ON s.id = sf.space_id
+  JOIN
+    users u on u.id = s.user_id
   WHERE
-    space_followers.follower_id = ?`;
+    sf.follower_id = ?`;
 
   const values = [userId];
 
@@ -23,7 +34,15 @@ const getFollowedSpaces = (userId) => {
 };
 
 const getOwnedSpaces = (userId) => {
-  const query = "SELECT * FROM spaces WHERE user_id = ?";
+  const query = `
+  SELECT
+    s.*,
+    u.img "author_image"
+  FROM
+    spaces s
+  JOIN
+    users u
+  WHERE s.user_id = ?`;
   const values = [userId];
 
   return dbPool.execute(query, values);
