@@ -27,7 +27,7 @@ const authLogin = async (req, res) => {
     token,
     data: {
       id: user.id,
-      name: user.username,
+      username: user.username,
       email: user.email,
       img: user.img,
       phone_number: user.phone_number,
@@ -39,7 +39,7 @@ const authLogin = async (req, res) => {
 const register = async (req, res) => {
   const { body } = req;
 
-  if (!body.name || !body.email || !body.password) {
+  if (!body.username || !body.email || !body.password) {
     return res.status(400).json({
       message: "Anda mengirimkan data yang salah",
     });

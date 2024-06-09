@@ -3,7 +3,6 @@ const bcrypt = require("bcryptjs");
 const { v4: uuidv4 } = require("uuid");
 const getAllUsers = () => {
   const SQLQuery = "SELECT * FROM users ";
-
   return dbPool.execute(SQLQuery);
 };
 
@@ -17,20 +16,20 @@ const createNewUser = (body) => {
   return dbPool.execute(SQLQuery);
 };
 
-const updateUsers = (body, idUser) => {
-  const SQLQuery = `UPDATE users SET username='${body.username}', email='${body.email}', job='${body.job}', phone_number='${body.phone_number}' WHERE id=${idUser}`;
+const updateUsers = (body, userId) => {
+  const SQLQuery = `UPDATE users SET username='${body.username}', email='${body.email}', job='${body.job}', phone_number='${body.phone_number}' WHERE id="${userId}"`;
 
   return dbPool.execute(SQLQuery);
 };
 
-const deleteUser = (idUser) => {
-  const SQLQuery = `DELETE FROM users WHERE id=${idUser}`;
+const deleteUser = (userId) => {
+  const SQLQuery = `DELETE FROM users WHERE id=${userId}`;
 
   return dbPool.execute(SQLQuery);
 };
 
-const updateFoto = (table, field, value, idUser) => {
-  const SQLQuery = `UPDATE ${table} SET ${field}='${value}' WHERE id='${idUser}'`;
+const updateFoto = (table, field, value, userId) => {
+  const SQLQuery = `UPDATE ${table} SET ${field}='${value}' WHERE id='${userId}'`;
 
   return dbPool.execute(SQLQuery);
 };

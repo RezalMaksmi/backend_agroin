@@ -3,9 +3,9 @@ post http://localhost:4000/auth/register
 content-type: application/json
 
 {
-    "name": "rezal",
-    "email": "rezall@gmail.com",
-    "password": "rezal123"
+    "name": "aufal",
+    "email": "aufal@gmail.com",
+    "password": "aufal123"
 }
 
 ###
@@ -18,9 +18,13 @@ content-type: application/json
 }
 
 ###
-post http://localhost:4000/users
+get http://localhost:4000/users/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwYjRiNjQwLWM5MjgtNDBiNy1hYjk1LTk2MGE0ZGQwMmY1ZCIsImlhdCI6MTcxNzUyMzMyMCwiZXhwIjoxNzE3NTI2OTIwfQ.atiA8UbpAq1TGdkmYHIku2M5KcF_ObykG1J3gsHGlrQ
+
+###
+PATCH http://localhost:4000/users/
 content-type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwYjRiNjQwLWM5MjgtNDBiNy1hYjk1LTk2MGE0ZGQwMmY1ZCIsImlhdCI6MTcxNzMzNzg4NywiZXhwIjoxNzE3MzQxNDg3fQ.UwVTG5wzHBH8MMDoVHbNZuUNp9HFuPeOhyASC8rM-B4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwYjRiNjQwLWM5MjgtNDBiNy1hYjk1LTk2MGE0ZGQwMmY1ZCIsImlhdCI6MTcxNzUyMzMyMCwiZXhwIjoxNzE3NTI2OTIwfQ.atiA8UbpAq1TGdkmYHIku2M5KcF_ObykG1J3gsHGlrQ
 
 {
     "username":"rezalllllll",
@@ -36,11 +40,22 @@ content-type: application/json
 
 
 ###
-get http://localhost:7000/spaces
+post http://localhost:4000/spaces
 content-type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgzNmE4M2NjLWVjNjctNDEzYy1iNmVlLWM0YTE5MWUxZTQ3ZSIsImlhdCI6MTcxNzI5NDMyMSwiZXhwIjoxNzE3Mjk3OTIxfQ.88ht9gNKbKRCsG9c38hlFDCfnCNG_cNo8ForxWj-To0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVmNmUzYTM2LWFjNWQtNDZiMC04OWYxLWQ1ZGU3M2JhMTY1NCIsImlhdCI6MTcxNzM0MjMzNSwiZXhwIjoxNzE3MzQ1OTM1fQ.G3cqUgSoobwoBTd14yY0H8n_7ttTSCYuZHMs0hTPajk
 
 {
-    "title": "Bagaimana cara membuat pupuk",
-    "description": "berikan saya contoh"
+    "title": "sukses beternak sapi",
+    "description": "suka berternak dan siap menjadi bos muda di desa"
 }
+
+###
+get http://localhost:4000/spaces/84
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwYjRiNjQwLWM5MjgtNDBiNy1hYjk1LTk2MGE0ZGQwMmY1ZCIsImlhdCI6MTcxNzQ4ODMwMywiZXhwIjoxNzE3NDkxOTAzfQ.YC3q5AF6yHAxuCLK6glY5mXNIrlGoJEpGsP06UgpuSc
+
+###
+get http://localhost:4000/spaces/
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwYjRiNjQwLWM5MjgtNDBiNy1hYjk1LTk2MGE0ZGQwMmY1ZCIsImlhdCI6MTcxNzQ4ODMwMywiZXhwIjoxNzE3NDkxOTAzfQ.YC3q5AF6yHAxuCLK6glY5mXNIrlGoJEpGsP06UgpuSc
+
