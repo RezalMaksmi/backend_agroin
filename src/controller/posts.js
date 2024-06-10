@@ -86,9 +86,52 @@ const getCommentByPostId = async (req, res) => {
   }
 };
 
+const voteComment = async (req, res) => {
+  const { commentId } = req.params;
+  const { type } = req.body;
+
+  try {
+    await PostModel.voteComment(commentId, req.userId, type);
+    return res.status(201).json({
+      message: "sukses memberikan vote",
+    });
+  } catch (error) {
+    console.log(error);
+    switch (error.code) {
+      case "ER_DUP_ENTRY":
+        return res.status(422).json({
+          message: "anda sudah memberikan vote",
+        });
+      default:
+        return res.json({
+          message: "server error",
+        });
+    }
+  }
+};
+
+const unVoteComment = async (req, res) => {
+  const { commentId } = req.params;
+  const { type } = req.body;
+
+  try {
+    await PostModel.unVoteComment(commentId, req.userId, type);
+    return res.status(201).json({
+      message: "sukses membatalkan vote",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      message: "server error",
+    });
+  }
+};
+
 module.exports = {
   getPosts,
   createPost,
   createComment,
   getCommentByPostId,
+  voteComment,
+  unVoteComment,
 };

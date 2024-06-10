@@ -89,9 +89,23 @@ const getCommentByPostId = (postId) => {
   return dbPool.execute(query, values);
 };
 
+const voteComment = (commentId, userId, type) => {
+  const query = `INSERT INTO comment_votes(comment_id, user_id, type) VALUES(?,?,?)`;
+  const values = [commentId, userId, type];
+  return dbPool.execute(query, values);
+};
+
+const unVoteComment = (commentId, userId, type) => {
+  const query = `DELETE FROM comment_votes WHERE comment_id = ? AND user_id = ? AND type = ?`;
+  const values = [commentId, userId, type];
+  return dbPool.execute(query, values);
+};
+
 module.exports = {
   getPosts,
   insertPost,
   getCommentByPostId,
   insertComment,
+  voteComment,
+  unVoteComment,
 };
