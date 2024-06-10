@@ -4,6 +4,7 @@ const express = require("express");
 const usersRoutes = require("./routes/users.js");
 const artikelRoutes = require("./routes/artikel.js");
 const spaceRoutes = require("./routes/space.js");
+const postRoutes = require("./routes/posts.js");
 
 const middlewareLogRequest = require("./middleware/logs.js");
 const bodyParser = require("body-parser");
@@ -29,6 +30,7 @@ app.use("/assets", express.static("public"));
 app.use("/users", usersRoutes);
 app.use("/artikel", artikelRoutes);
 app.use("/spaces", spaceRoutes);
+app.use("/posts", postRoutes);
 
 app.get("/", (req, res) => {
   res.send("Welcome To API Agroin");
