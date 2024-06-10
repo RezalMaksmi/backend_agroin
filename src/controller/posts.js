@@ -54,6 +54,42 @@ const createPost = async (req, res) => {
   }
 };
 
+const getPostById = async (req, res) => {
+  const { postId } = req.params;
+  try {
+    const [result] = await PostModel.getPostById(postId);
+    if (!result) {
+      return res.status(404).json({ message: "post tidak ditemukan" });
+    }
+    console.log(result);
+    const post = {
+      id: result[0].id,
+      title: result[0].title,
+      description: result[0].description,
+      type: result[0].type,
+      img: result[0].img,
+      space_id: result[0].space_id,
+      created_at: result[0].created_at,
+      comment_count: result[0].comment_count,
+      author: {
+        name: result[0].username,
+        img: result[0].author_image,
+        job: result[0].job,
+      },
+    };
+
+    return res.json({
+      data: {
+        post,
+      },
+      message: "sukses mendapatkan data",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "server error" });
+  }
+};
+
 const createComment = async (req, res) => {
   const { postId } = req.params;
   const { text } = req.body;
@@ -142,6 +178,7 @@ const unVoteComment = async (req, res) => {
 
 module.exports = {
   getPosts,
+  getPostById,
   createPost,
   createComment,
   getCommentByPostId,

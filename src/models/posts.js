@@ -51,12 +51,19 @@ const getPostById = (id) => {
   const query = `
   SELECT
     p.*,
-    u.img "author_image"  
+    u.username,
+    u.img "author_image",
+    u.job,
+    COUNT(c.id) "comment_count"
   FROM
     posts p
   JOIN
     users u ON u.id = p.user_id
-  WHERE p.id = ?`;
+  LEFT JOIN
+    comments c ON c.post_id = p.id
+  WHERE p.id = ?
+  GROUP BY
+    p.id`;
   const values = [id];
   return dbPool.execute(query, values);
 };
@@ -104,6 +111,7 @@ const unVoteComment = (commentId, userId, type) => {
 
 module.exports = {
   getPosts,
+  getPostById,
   insertPost,
   getCommentByPostId,
   insertComment,
