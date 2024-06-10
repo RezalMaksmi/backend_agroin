@@ -73,7 +73,20 @@ const createComment = async (req, res) => {
 const getCommentByPostId = async (req, res) => {
   const { postId } = req.params;
   try {
-    const comments = await PostModel.getCommentByPostId(postId);
+    const [result] = await PostModel.getCommentByPostId(postId);
+    const comments = result.map((comment) => ({
+      id: comment.id,
+      text: comment.text,
+      user: {
+        name: comment.username,
+        img: comment.img,
+        job: comment.job,
+      },
+      vote: {
+        up: comment.upvote_count,
+        down: comment.downvote_count,
+      },
+    }));
     return res.status(200).json({
       message: "sukses mendapatkan komentar",
       data: {

@@ -70,21 +70,22 @@ const insertComment = (postId, userId, text) => {
 
 const getCommentByPostId = (postId) => {
   query = `
-  SELECT
-    p.id,
-    p.text,
-    u.username,
-    u.img,
-    u.job
-  FROM
-    comments c
-  JOIN
-    users u ON u.id = c.user_id
-  JOIN
-    comment_votes cv ON cv.post_id = p.id
-  WHERE c.post_id = ?
-  GROUP BY
-    p.id`;
+SELECT
+	c.id,
+	c.text,
+	u.username,
+	u.img,
+	u.job,
+	COUNT(IF(cv.type = 'up', 1, null)) as upvote_count,
+	COUNT(IF(cv.type = 'down', 1, null)) as downvote_count
+FROM
+	comments c
+	JOIN users u ON u.id = c.user_id
+	LEFT JOIN comment_votes cv ON cv.comment_id = c.id
+WHERE
+  c.post_id = ?
+GROUP BY
+	c.id;`;
   values = [postId];
   return dbPool.execute(query, values);
 };
