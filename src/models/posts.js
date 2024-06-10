@@ -36,7 +36,7 @@ const searchPost = (keyword) => {
 };
 
 const insertPost = (
-  spaceId,
+  spaceId = null,
   userId,
   type,
   title,

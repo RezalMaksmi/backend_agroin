@@ -20,10 +20,11 @@ const getPosts = async (req, res) => {
 
     res.status(200).json({
       posts,
-      message: "sukses mendapatkan post",
+      message: "sukses mendapatkan data",
     });
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    console.log(error);
+    res.status(500).json({ message: "server error" });
   }
 };
 
@@ -55,7 +56,6 @@ const createPost = async (req, res) => {
 
 const searchPost = async (req, res) => {
   const { q: keyword } = req.query;
-  console.log({ keyword });
   try {
     const [posts] = await PostModel.searchPost(keyword);
     return res.json({
@@ -73,10 +73,9 @@ const getPostById = async (req, res) => {
   const { postId } = req.params;
   try {
     const [result] = await PostModel.getPostById(postId);
-    if (!result) {
+    if (!result || result[0].user_id !== req.userId) {
       return res.status(404).json({ message: "post tidak ditemukan" });
     }
-    console.log(result);
     const post = {
       id: result[0].id,
       title: result[0].title,
