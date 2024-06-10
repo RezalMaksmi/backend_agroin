@@ -5,6 +5,8 @@ const verifyTokenMiddleware = require("../middleware/authMiddleware");
 
 router.use(verifyTokenMiddleware);
 
+router.get("/", PostController.getPosts);
+router.get("/search", PostController.searchPost);
 router.post("/", PostController.createPost);
 router.get("/:postId", PostController.getPostById);
 router.post("/:postId/comments", PostController.createComment);

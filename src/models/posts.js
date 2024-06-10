@@ -3,14 +3,17 @@ const dbPool = require("../config/database");
 const getPosts = () => {
   const query = `
   SELECT
-    *,
-    (SELECT COUNT(*) FROM comments WHERE comments.post_id = posts.id) AS comment_count
-  FROM 
+    p.*,
+    u.username,
+    u.img "author_image",
+    u.job,
+    COUNT(c.id) "comment_count"
+  FROM
     posts p
-  JOIN
-    users u ON u.id = p.user_id
+    JOIN users u ON u.id = p.user_id
+    LEFT JOIN comments c ON c.post_id = p.id
   GROUP BY
-    P.id`;
+    p.id;`;
 
   return dbPool.execute(query);
 };
@@ -20,13 +23,13 @@ const searchPost = (keyword) => {
     SELECT
         p.id,
         p.title,
-        p.type
+        p.type,
         u.img "author_image"
     FROM
         posts p
     JOIN
         users u ON u.id = p.user_id
-    WHERE posts.title LIKE %?%`;
+    WHERE p.title LIKE CONCAT('%', ?, '%')`;
   const values = [keyword];
 
   return dbPool.execute(query, values);
@@ -112,6 +115,7 @@ const unVoteComment = (commentId, userId, type) => {
 module.exports = {
   getPosts,
   getPostById,
+  searchPost,
   insertPost,
   getCommentByPostId,
   insertComment,

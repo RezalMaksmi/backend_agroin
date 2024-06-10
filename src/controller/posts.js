@@ -1,4 +1,3 @@
-// create function that acts as controller  for get posts
 const PostModel = require("../models/posts");
 
 const getPosts = async (req, res) => {
@@ -32,7 +31,7 @@ const createPost = async (req, res) => {
   const { title, description, type, img, space_id } = req.body;
   try {
     const [result] = await PostModel.insertPost(
-      req.body.space_id,
+      space_id,
       req.userId,
       type,
       title,
@@ -46,6 +45,22 @@ const createPost = async (req, res) => {
         post: {
           id: result.insertId,
         },
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "server error" });
+  }
+};
+
+const searchPost = async (req, res) => {
+  const { q: keyword } = req.query;
+  console.log({ keyword });
+  try {
+    const [posts] = await PostModel.searchPost(keyword);
+    return res.json({
+      data: {
+        posts,
       },
     });
   } catch (error) {
@@ -178,6 +193,7 @@ const unVoteComment = async (req, res) => {
 
 module.exports = {
   getPosts,
+  searchPost,
   getPostById,
   createPost,
   createComment,
