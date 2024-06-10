@@ -43,7 +43,6 @@ const insertPost = (
   const query =
     "INSERT INTO posts(space_id, user_id, type, title, description, img) VALUES(?,?,?,?,?,?)";
   const values = [spaceId, userId, type, title, description, img];
-  console.log({ values });
 
   return dbPool.execute(query, values);
 };
@@ -62,7 +61,37 @@ const getPostById = (id) => {
   return dbPool.execute(query, values);
 };
 
+const insertComment = (postId, userId, text) => {
+  query = `INSERT INTO comments(post_id, user_id, text) VALUES(?,?,?)`;
+  values = [postId, userId, text];
+
+  return dbPool.execute(query, values);
+};
+
+const getCommentByPostId = (postId) => {
+  query = `
+  SELECT
+    p.id,
+    p.text,
+    u.username,
+    u.img,
+    u.job
+  FROM
+    comments c
+  JOIN
+    users u ON u.id = c.user_id
+  JOIN
+    comment_votes cv ON cv.post_id = p.id
+  WHERE c.post_id = ?
+  GROUP BY
+    p.id`;
+  values = [postId];
+  return dbPool.execute(query, values);
+};
+
 module.exports = {
   getPosts,
   insertPost,
+  getCommentByPostId,
+  insertComment,
 };

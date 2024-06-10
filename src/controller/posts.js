@@ -54,7 +54,41 @@ const createPost = async (req, res) => {
   }
 };
 
+const createComment = async (req, res) => {
+  const { postId } = req.params;
+  const { text } = req.body;
+
+  try {
+    await PostModel.insertComment(postId, req.userId, text);
+
+    return res.status(201).json({
+      message: "sukses menambahkan komentar",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "server error" });
+  }
+};
+
+const getCommentByPostId = async (req, res) => {
+  const { postId } = req.params;
+  try {
+    const comments = await PostModel.getCommentByPostId(postId);
+    return res.status(200).json({
+      message: "sukses mendapatkan komentar",
+      data: {
+        comments,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "server error" });
+  }
+};
+
 module.exports = {
   getPosts,
   createPost,
+  createComment,
+  getCommentByPostId,
 };
