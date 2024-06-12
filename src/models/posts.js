@@ -12,6 +12,8 @@ const getPosts = () => {
     posts p
     JOIN users u ON u.id = p.user_id
     LEFT JOIN comments c ON c.post_id = p.id
+  WHERE
+    p.space_id IS NULL
   GROUP BY
     p.id;`;
 
