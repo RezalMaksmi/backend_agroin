@@ -1,32 +1,5 @@
 const SpaceModel = require("../models/space");
-
-const getFollowedSpace = async () => {
-  try {
-    const [spaces] = await SpaceModel.getFollowedSpace(req.userId);
-
-    return res.json({
-      spaces,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "server error",
-    });
-  }
-};
-
-const getOwnedSpaces = async () => {
-  try {
-    const [spaces] = await SpaceModel.getOwnedSpaces(req.userId);
-
-    return res.json({
-      spaces,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "server error",
-    });
-  }
-};
+const PostModel = require("../models/posts");
 
 const getSpaces = async (req, res) => {
   const { filter } = req.query;
@@ -89,8 +62,6 @@ const getSpaceById = async (req, res) => {
   const [spaces] = await SpaceModel.getSpaceById(id);
   const space = spaces[0];
 
-  // TODO: get posts from current space
-
   if (!space) {
     return res.status(404).json({
       message: "ruang tidak ditemukan",
@@ -98,12 +69,15 @@ const getSpaceById = async (req, res) => {
   }
 
   const isOwned = req.userId === space.user_id;
+  const [posts] = await PostModel.getPostsBySpaceId(id);
 
   return res.json({
     data: {
       space: {
         ...space,
+        img: getRandomImgLink(),
         is_owned: isOwned,
+        posts,
       },
     },
   });
@@ -212,6 +186,13 @@ const removeSpaceFollower = async (req, res) => {
   return res.json({
     message: "sukses batal mengikuti ruang",
   });
+};
+
+const getRandomImgLink = () => {
+  const maxNum = 29;
+  const minNum = 1;
+  const randomNum = Math.floor(Math.random() * (maxNum - minNum));
+  return `https://picsum.photos/id/${randomNum}/800`;
 };
 
 module.exports = {
