@@ -18,6 +18,26 @@ const getPosts = () => {
   return dbPool.execute(query);
 };
 
+const getPostsBySpaceId = (spaceId) => {
+  const query = `
+  SELECT
+    p.*,
+    u.username,
+    u.img "author_image",
+    u.job,
+    COUNT(c.id) "comment_count"
+  FROM
+    posts p
+    JOIN users u ON u.id = p.user_id
+    LEFT JOIN comments c ON c.post_id = p.id
+  WHERE
+    p.space_id = ?
+  GROUP BY
+    p.id;`;
+  const values = [spaceId];
+  return dbPool.execute(query, values);
+};
+
 const searchPost = (keyword) => {
   const query = `
     SELECT
@@ -114,6 +134,7 @@ const unVoteComment = (commentId, userId, type) => {
 
 module.exports = {
   getPosts,
+  getPostsBySpaceId,
   getPostById,
   searchPost,
   insertPost,
