@@ -73,7 +73,7 @@ const getPostById = async (req, res) => {
   const { postId } = req.params;
   try {
     const [result] = await PostModel.getPostById(postId);
-    if (!result || result[0].user_id !== req.userId) {
+    if (!result) {
       return res.status(404).json({ message: "post tidak ditemukan" });
     }
     const post = {
