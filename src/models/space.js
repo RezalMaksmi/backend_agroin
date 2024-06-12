@@ -41,7 +41,7 @@ const getOwnedSpaces = (userId) => {
   FROM
     spaces s
   JOIN
-    users u
+    users u ON u.id = s.user_id
   WHERE s.user_id = ?`;
   const values = [userId];
 
