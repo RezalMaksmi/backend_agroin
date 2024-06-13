@@ -63,7 +63,7 @@ const getSpaces = async (req, res) => {
 
 const getSpaceById = async (req, res) => {
   const { id } = req.params;
-  const [spaces] = await SpaceModel.getSpaceById(id);
+  const [spaces] = await SpaceModel.getSpaceById(req.userId, id);
   const space = spaces[0];
 
   if (!space) {
@@ -79,6 +79,7 @@ const getSpaceById = async (req, res) => {
     data: {
       space: {
         ...space,
+        following: space.following ? true : false,
         img: getRandomImgLink(),
         is_owned: isOwned,
         posts,
