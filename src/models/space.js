@@ -1,17 +1,20 @@
 const dbPool = require("../config/database");
 
-const getSpaces = () => {
+const getSpaces = (userId) => {
   const query = `
-  SELECT  
+  SELECT
+    IF(sf.follower_id = ?, TRUE, FALSE) "following",  
     s.*,
     u.img "author_image"
   FROM
     spaces s
   JOIN
     users u ON s.user_id = u.id
+  LEFT JOIN
+    space_followers sf ON sf.space_id = s.id
   `;
-
-  return dbPool.execute(query);
+  const values = [userId];
+  return dbPool.execute(query, values);
 };
 
 const getFollowedSpaces = (userId) => {

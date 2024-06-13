@@ -41,8 +41,11 @@ const getSpaces = async (req, res) => {
       break;
     default:
       try {
-        const [spaces] = await SpaceModel.getSpaces();
-
+        const [result] = await SpaceModel.getSpaces(req.userId);
+        const spaces = result.map((space) => ({
+          ...space,
+          following: space.following ? true : false,
+        }));
         res.json({
           data: {
             spaces,
@@ -50,6 +53,7 @@ const getSpaces = async (req, res) => {
           message: "sukses mengambil data ruang",
         });
       } catch (e) {
+        console.log(e);
         res.status(500).json({
           message: "server error",
         });
