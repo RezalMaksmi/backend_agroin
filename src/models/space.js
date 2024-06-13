@@ -3,17 +3,17 @@ const dbPool = require("../config/database");
 const getSpaces = (userId) => {
   const query = `
   SELECT
-    IF(sf.follower_id = ?, TRUE, FALSE) "following",  
+    (select count(sf.follower_id) from space_followers sf where sf.space_id = s.id and sf.follower_id = ?) following,
     s.*,
     u.img "author_image"
   FROM
     spaces s
   JOIN
     users u ON s.user_id = u.id
-  LEFT JOIN
-    space_followers sf ON sf.space_id = s.id
+  WHERE
+    s.user_id != ?
   `;
-  const values = [userId];
+  const values = [userId, userId];
   return dbPool.execute(query, values);
 };
 
