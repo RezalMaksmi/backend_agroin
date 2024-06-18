@@ -118,7 +118,7 @@ const deleteSpaceById = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const [spaces] = await SpaceModel.getSpaceById(id);
+    const [spaces] = await SpaceModel.getSpaceById(req.userId, id);
     const space = spaces[0];
     if (!space) {
       return res.status(404).json({
