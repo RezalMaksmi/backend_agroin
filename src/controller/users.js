@@ -2,6 +2,7 @@ const UserModel = require("../models/users");
 
 const getAllUsers = async (req, res) => {
   try {
+    console.log(req.userId);
     const [data] = await UserModel.getAllUsers();
 
     res.json({
@@ -42,15 +43,17 @@ const createNewUser = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const { idUser } = req.params;
-  const { body } = req;
   try {
-    await UserModel.updateUsers(body, idUser);
+    console.log(req.userId);
+
+    // const { userId } = req.params;
+    const { body } = req;
+    await UserModel.updateUsers(body, req.userId);
 
     res.json({
       message: "Update User success",
       data: {
-        id: idUser,
+        id: req.userId,
         ...body,
       },
     });
@@ -63,10 +66,10 @@ const updateUser = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
-  const { idUser } = req.params;
+  const { userId } = req.params;
 
   try {
-    await UserModel.deleteUser(idUser);
+    await UserModel.deleteUser(userId);
 
     res.json({
       message: "Delete User success",
@@ -83,9 +86,9 @@ const deleteUser = async (req, res) => {
 const uploud = async (req, res) => {
   try {
     const fileName = req.file.filename;
-    const idUser = req.userId;
+    const userId = req.userId;
 
-    await UserModel.updateFoto("users", "img", fileName, idUser);
+    await UserModel.updateFoto("users", "img", fileName, userId);
     res.json({
       message: "uploud berhasil",
     });

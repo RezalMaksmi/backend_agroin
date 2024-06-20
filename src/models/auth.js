@@ -11,7 +11,7 @@ const getUsers = () => {
 const registerUser = (body) => {
   const id = uuidv4();
   const SQLQuery = `INSERT INTO users (id, username, email, password) 
-  VALUES ('${id}','${body.name}', '${body.email}','${bcrypt.hashSync(
+  VALUES ('${id}','${body.username}', '${body.email}','${bcrypt.hashSync(
     body.password
   )}')`;
 

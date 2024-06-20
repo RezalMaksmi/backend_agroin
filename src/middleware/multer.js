@@ -8,7 +8,8 @@ const storage = multer.diskStorage({
     const timestamp = new Date().getTime();
     const originalname = file.originalname;
 
-    cb(null, `${timestamp}-${originalname}`);
+    cb(null, `${originalname}`);
+    // cb(null, `${timestamp}-${originalname}`);
   },
 });
 
