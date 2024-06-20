@@ -1,6 +1,10 @@
 {
     "version": 2,
     "builds": [
+        { 
+            "src": "public/**",
+            "use": "@vercel/static"
+        }, 
         {
             "src": "src/index.js",
             "use": "@vercel/node"
@@ -8,8 +12,12 @@
     ],
     "rewrites": [
         {
+            "source": "/assets/(.*)",
+            "destination": "public/$1"
+        },
+        {
             "source": "/(.*)",
             "destination": "/src/index.js"
-        }
-    ]
+        }
+    ]
 }
