@@ -12,12 +12,12 @@
     ],
     "rewrites": [
         {
-            "source": "/assets/(.*)",
+            "source": "/images/(.*)",
             "destination": "public/$1"
         },
         {
             "source": "/(.*)",
             "destination": "/src/index.js"
-        }
-    ]
+        }
+    ]
 }
