@@ -8,7 +8,6 @@ const postRoutes = require("./routes/posts.js");
 const foodRoutes = require("./routes/foods.js");
 const utilsRoutes = require("./routes/utils.js");
 
-
 const middlewareLogRequest = require("./middleware/logs.js");
 const bodyParser = require("body-parser");
 const authRoutes = require("./routes/auth");
@@ -38,7 +37,6 @@ app.use("/posts", postRoutes);
 app.use("/food-prices", foodRoutes);
 app.use("/utils", utilsRoutes);
 
-
 app.get("/", (req, res) => {
   res.send("Welcome To API Agroin");
 });
@@ -46,3 +44,5 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+module.exports = app;
