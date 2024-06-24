@@ -15,7 +15,9 @@ const getPosts = () => {
   WHERE
     p.space_id IS NULL
   GROUP BY
-    p.id;`;
+    p.id
+  ORDER BY
+    p.created_at DESC;`;
 
   return dbPool.execute(query);
 };
@@ -35,7 +37,9 @@ const getPostsBySpaceId = (spaceId) => {
   WHERE
     p.space_id = ?
   GROUP BY
-    p.id;`;
+    p.id
+  ORDER BY
+    p.created_at DESC`;
   const values = [spaceId];
   return dbPool.execute(query, values);
 };
