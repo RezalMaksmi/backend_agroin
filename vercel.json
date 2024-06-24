@@ -1,12 +1,20 @@
 {
     "version": 2,
     "builds": [
+        { 
+            "src": "public/**",
+            "use": "@vercel/static"
+        }, 
         {
             "src": "src/index.js",
             "use": "@vercel/node"
         }
     ],
     "rewrites": [
+        {
+            "source": "/images/(.*)",
+            "destination": "public/$1"
+        },
         {
             "source": "/(.*)",
             "destination": "/src/index.js"
